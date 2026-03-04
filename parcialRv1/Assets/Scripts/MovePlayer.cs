@@ -37,12 +37,26 @@ public class MovePlayer : MonoBehaviour
     //variable para conectar con el animador
     private Animator animator;
 
+    //variables para camara
+    public Transform playerCamera;
+    public float mouseSensitivity = 0.15f;
+    public float gamepadSensitivity = 120f;
+    public float verticalClamp = 60f;
+
+    private Vector2 lookInput;
+    private float xRotation = 0f;
+    private bool isGamepadLook = false;
+
+
     private void Awake()
     {
         inputActions = new NIA();
         character = GetComponent<CharacterController>();
 
         animator = GetComponent<Animator>();
+
+        playerCamera = GetComponentInChildren<Camera>()?.transform;
+       
 
     }
 
@@ -58,6 +72,11 @@ public class MovePlayer : MonoBehaviour
         inputActions.PlayerMove.Run.performed += OnRun;
         inputActions.PlayerMove.Run.canceled += OnRun;
 
+        inputActions.PlayerMove.Look.performed += OnLook;
+        inputActions.PlayerMove.Look.canceled += OnLook;
+
+        inputActions.PlayerMove.Interact.performed += OnInteract;
+
     }
 
     private void OnDisable()
@@ -71,6 +90,11 @@ public class MovePlayer : MonoBehaviour
 
         inputActions.PlayerMove.Run.performed -= OnRun;
         inputActions.PlayerMove.Run.canceled -= OnRun;
+
+        inputActions.PlayerMove.Look.performed -= OnLook;
+        inputActions.PlayerMove.Look.canceled -= OnLook;
+
+        inputActions.PlayerMove.Interact.performed -= OnInteract;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -78,7 +102,7 @@ public class MovePlayer : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();
     }
 
-    public void OnJump(InputAction.CallbackContext context) 
+    public void OnJump(InputAction.CallbackContext context)
     {
         if (character.isGrounded)
         {
@@ -105,27 +129,64 @@ public class MovePlayer : MonoBehaviour
         Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
         if (moveDirection.magnitude >= 0.1f)
         {
-            // 1. Lógica de Rotación:
-            // Calculamos el ángulo hacia donde queremos mirar
-            float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
 
-            // Creamos una rotación suave (Lerp) hacia ese ángulo
-            Quaternion targetRotation = Quaternion.Euler(0f, targetAngle, 0f);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
 
-            // 2. Movimiento:
-            // Movemos al personaje en la dirección en la que está mirando ahora
-            character.Move(moveDirection * targetSpeed * Time.deltaTime);
+            character.Move(move.normalized * targetSpeed * Time.deltaTime);
         }
 
-        //gravedad y salto
-        velocity.y += gravity * Time.deltaTime;
-        character.Move(velocity * Time.deltaTime);
+        HandleLook();
 
         UpdateAnimations();
 
     }
 
+
+
+    //para mirar, movimiento de camara
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        lookInput = context.ReadValue<Vector2>();
+        isGamepadLook = context.control?.device is Gamepad;
+    }
+
+    //interaccion con cosas
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+       if (context.performed) TryInteract();
+    }
+
+    //rotación de camara
+    private void HandleLook()
+    {
+        if (playerCamera == null) return;
+
+            float sens = isGamepadLook ? gamepadSensitivity * Time.deltaTime : mouseSensitivity;
+
+            // Horizontal: rota el cuerpo del jugador en Y
+            transform.Rotate(Vector3.up * lookInput.x * sens);
+
+            // Vertical: rota solo la camara (con limites para no girar 360 grados)
+            xRotation -= lookInput.y * sens;
+            xRotation = Mathf.Clamp(xRotation, -verticalClamp, verticalClamp);
+            playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+
+    //funcion para los objetos del mundo
+    private void TryInteract()
+    {
+        if (playerCamera == null) return;
+
+            Ray ray = new Ray(playerCamera.position, playerCamera.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, 2.5f))
+            {
+               if (hit.collider.TryGetComponent<IInteractable>(out var obj))
+               {
+                    obj.Interact(this);
+                    Debug.Log($"[MovePlayer] Interactuando con: {hit.collider.name}");
+                }
+            }
+    }
 
     private void UpdateAnimations()
     {
@@ -140,4 +201,8 @@ public class MovePlayer : MonoBehaviour
 
         animator.SetBool("isGrounded", character.isGrounded);
     }
+}
+public interface IInteractable
+{
+    void Interact(MovePlayer player);
 }

@@ -6686,12 +6686,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 169279969}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.99997056, z: 0, w: -0.007679378}
-  m_LocalPosition: {x: -187, y: -4, z: 62.2}
+  m_LocalRotation: {x: -0, y: 0.007679378, z: -0, w: -0.99997056}
+  m_LocalPosition: {x: -0.12, y: 1.95, z: -1.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2090914911}
   m_LocalEulerAnglesHint: {x: 0, y: -180.88, z: 0}
 --- !u!1001 &172999621
 PrefabInstance:
@@ -32147,7 +32147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
       propertyPath: m_LocalRotation.x
@@ -32155,7 +32155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
       propertyPath: m_LocalRotation.z
@@ -32167,7 +32167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -32187,7 +32187,10 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 553ad3395f5acd241bd6d70313f880b1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 169279973}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
       insertIndex: -1
@@ -32201,6 +32204,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2090914904}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2090914912}
   m_SourcePrefab: {fileID: 100100000, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
 --- !u!1001 &810580049
 PrefabInstance:
@@ -80907,6 +80913,10 @@ MonoBehaviour:
   sprintMultiplier: 2
   rotationSpeed: 10
   jumpHeight: 0
+  playerCamera: {fileID: 0}
+  mouseSensitivity: 0.15
+  gamepadSensitivity: 120
+  verticalClamp: 60
 --- !u!136 &2090914907
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -80982,6 +80992,41 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.85, z: 0}
+--- !u!4 &2090914911 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 62bcb79ec37e8b847bda379aaa9cd8a0, type: 3}
+  m_PrefabInstance: {fileID: 807326152}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2090914912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090914903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!4 &2091023446 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4263854091044786, guid: ba5868406d8f7b44ab8259922364c9ed, type: 3}
@@ -83240,4 +83285,3 @@ SceneRoots:
   - {fileID: 296914534}
   - {fileID: 1196223815}
   - {fileID: 807326152}
-  - {fileID: 169279973}
