@@ -47,54 +47,30 @@ public class MovePlayer : MonoBehaviour
     private float xRotation = 0f;
     private bool isGamepadLook = false;
 
+    private int playerIndex = 0;
 
     private void Awake()
     {
-        inputActions = new NIA();
+        
         character = GetComponent<CharacterController>();
 
         animator = GetComponent<Animator>();
 
         playerCamera = GetComponentInChildren<Camera>()?.transform;
-       
+
+        PlayerInput pi = GetComponent<PlayerInput>();
+        if (pi != null)
+        {
+            playerIndex = pi.playerIndex;
+            pi.neverAutoSwitchControlSchemes = true;
+        }
 
     }
 
-    private void OnEnable()
+    void Start()
     {
-        inputActions.PlayerMove.Enable();
-
-        inputActions.PlayerMove.Move.performed += OnMove;
-        inputActions.PlayerMove.Move.canceled += OnMove;
-
-        inputActions.PlayerMove.Jump.performed += OnJump;
-
-        inputActions.PlayerMove.Run.performed += OnRun;
-        inputActions.PlayerMove.Run.canceled += OnRun;
-
-        inputActions.PlayerMove.Look.performed += OnLook;
-        inputActions.PlayerMove.Look.canceled += OnLook;
-
-        inputActions.PlayerMove.Interact.performed += OnInteract;
-
-    }
-
-    private void OnDisable()
-    {
-        inputActions.PlayerMove.Disable();
-
-        inputActions.PlayerMove.Move.performed -= OnMove;
-        inputActions.PlayerMove.Move.canceled -= OnMove;
-
-        inputActions.PlayerMove.Jump.performed -= OnJump;
-
-        inputActions.PlayerMove.Run.performed -= OnRun;
-        inputActions.PlayerMove.Run.canceled -= OnRun;
-
-        inputActions.PlayerMove.Look.performed -= OnLook;
-        inputActions.PlayerMove.Look.canceled -= OnLook;
-
-        inputActions.PlayerMove.Interact.performed -= OnInteract;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -142,6 +118,11 @@ public class MovePlayer : MonoBehaviour
     }
 
 
+    public void SetPlayerIndex(int index)
+    {
+        playerIndex = index;
+        Debug.Log($"[MovePlayer] Soy el Jugador {index + 1}");
+    }
 
     //para mirar, movimiento de camara
     public void OnLook(InputAction.CallbackContext context)
