@@ -52,5 +52,4 @@ public class SplitScreenManager : MonoBehaviour
         setUpCamera();
 
     }
-
 }
