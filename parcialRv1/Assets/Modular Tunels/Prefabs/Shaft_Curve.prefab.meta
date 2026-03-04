@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: b2fbbbf5aa463e8489d8834ac4e11171
+timeCreated: 1537426048
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 130591
+  packageName: Modular Metro Tunnels
+  packageVersion: 1.0
+  assetPath: Assets/Modular Tunels/Prefabs/Shaft_Curve.prefab
+  uploadId: 273262

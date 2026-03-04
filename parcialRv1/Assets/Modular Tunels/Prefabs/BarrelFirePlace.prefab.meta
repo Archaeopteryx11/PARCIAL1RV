@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 430f45b557d892c45b11e64712a13491
+timeCreated: 1537355019
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 130591
+  packageName: Modular Metro Tunnels
+  packageVersion: 1.0
+  assetPath: Assets/Modular Tunels/Prefabs/BarrelFirePlace.prefab
+  uploadId: 273262
