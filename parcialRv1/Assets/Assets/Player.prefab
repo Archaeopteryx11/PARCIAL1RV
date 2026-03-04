@@ -1185,7 +1185,7 @@ Transform:
   m_GameObject: {fileID: 3475434485728908770}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -171.26688, y: 3.95414, z: 57.78362}
+  m_LocalPosition: {x: -173.02333, y: 3.69548, z: 49.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1423,7 +1423,7 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 07a97514-d958-4353-bc42-6ee3d4fadfd1
     m_ActionName: 'PlayerMove/Interact[/Keyboard/e]'
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMove
   m_SplitScreenIndex: -1
@@ -1790,6 +1790,7 @@ GameObject:
   - component: {fileID: 2487190823110646893}
   - component: {fileID: 7584812365586587396}
   - component: {fileID: 1365902380151616189}
+  - component: {fileID: 2869589902118814465}
   - component: {fileID: 3037622077616068624}
   m_Layer: 0
   m_Name: Camera
@@ -1871,7 +1872,19 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5459428718639189523}
+  m_Enabled: 0
+--- !u!114 &2869589902118814465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5459428718639189523}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 399a3c2ecfb89f340947b32030bbb866, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SplitScreenManager
 --- !u!114 &3037622077616068624
 MonoBehaviour:
   m_ObjectHideFlags: 0

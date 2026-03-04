@@ -1,45 +1,56 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(Camera))]
 
 public class SplitScreenManager : MonoBehaviour
 {
-    [Header("Cámaras de los jugadores (en orden: 0, 1, 2, 3)")]
-    public Camera[] camarasJugadores = new Camera[4];
+    private Camera cam;
+    private int index;
+    private int totalPlayers;
 
-    private static readonly Rect[] viewports = new Rect[]
+    private void Awake()
     {
-        new Rect(0f,   0.5f,  0.5f, 0.5f),   // Player 0 — arriba izquierda
-        new Rect(0.5f, 0.5f,  0.5f, 0.5f),   // Player 1 — arriba derecha
-        new Rect(0f,   0f,    0.5f, 0.5f),    // Player 2 — abajo izquierda
-        new Rect(0.5f, 0f,    0.5f, 0.5f),    // Player 3 — abajo derecha
-    };
-
-    void Awake()
-    {
-        AcomodarCamaras();
+        PlayerInputManager.instance.onPlayerJoined += HandlePlayerJoined;
     }
 
-    void AcomodarCamaras()
+    private void HandlePlayerJoined(PlayerInput obj)
     {
-        for (int i = 0; i < camarasJugadores.Length; i++)
+        totalPlayers= PlayerInput.all.Count;
+        setUpCamera();
+    }
+    private void setUpCamera()
+    {
+        if (totalPlayers == 1)
         {
-            if (camarasJugadores[i] == null)
-            {
-                Debug.LogWarning($"SplitScreenManager: falta asignar la cámara del Player {i}");    
-                continue;
-            }
-
-            camarasJugadores[i].rect = viewports[i];
+            cam.rect = new Rect(0, 0, 1, 1);
         }
-
-        Debug.Log("SplitScreenManager: cámaras acomodadas en grilla 2x2 ?");
+        else if (totalPlayers == 2)
+        {
+            cam.rect = new Rect(index == 0 ? 0 : 0.5f, 0, 0.5f, 1);
+        }
+        else if (totalPlayers == 3) 
+        {
+            cam.rect = new Rect(index == 0 ? 0 : (index == 1 ? 0.5f : 0),
+                index < 2 ? 0.5f : 0,
+                index < 2 ? 0.5f : 1,
+                0.5f);
+        }
+        else
+        {
+            cam.rect = new Rect((index % 2) * 0.5f, (float)((index < 2) ? 0.5 : 0f), 0.5f, 0.5f);
+        }
     }
-
-#if UNITY_EDITOR
-    // Botón en el Inspector para previsualizar sin correr el juego
-    [ContextMenu("Previsualizar en Editor")]
-    void PrevisualizarEnEditor()
+    private void Start()
     {
-        AcomodarCamaras();
+        index = GetComponentInParent<PlayerInput>().playerIndex;
+        totalPlayers = PlayerInput.all.Count;
+        cam = GetComponent <Camera>();
+        cam.depth = index;
+
+        setUpCamera();
+
     }
-#endif
+
 }

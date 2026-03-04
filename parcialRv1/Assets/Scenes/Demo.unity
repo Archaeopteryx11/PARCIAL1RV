@@ -75867,7 +75867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1921090148}
   - component: {fileID: 1921090150}
-  - component: {fileID: 1921090149}
+  - component: {fileID: 1921090151}
   m_Layer: 0
   m_Name: spawner
   m_TagString: Untagged
@@ -75890,23 +75890,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1921090149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1921090147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1770e2d152f6e264c8d667dca2878768, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawner
-  playerPrefab: {fileID: 3475434485728908770, guid: ef387226b889e52418429f1a5503e7f3, type: 3}
-  spawnPoint0: {fileID: 1405723330}
-  spawnPoint1: {fileID: 1819133157}
-  spawnPoint2: {fileID: 984628469}
-  spawnPoint3: {fileID: 619489829}
 --- !u!114 &1921090150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75951,6 +75934,23 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &1921090151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921090147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1770e2d152f6e264c8d667dca2878768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawner
+  playerPrefab: {fileID: 3475434485728908770, guid: ef387226b889e52418429f1a5503e7f3, type: 3}
+  spawnPoint0: {fileID: 1405723330}
+  spawnPoint1: {fileID: 1819133157}
+  spawnPoint2: {fileID: 984628469}
+  spawnPoint3: {fileID: 619489829}
 --- !u!1001 &1921339643
 PrefabInstance:
   m_ObjectHideFlags: 0

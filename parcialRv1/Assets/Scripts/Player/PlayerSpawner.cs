@@ -1,18 +1,9 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.UIElements;
 
-/// <summary>
-/// Gestiona el spawn de los 4 jugadores y asigna automáticamente
-/// el Viewport Rect correcto a cada cámara según su índice.
-///
-/// SETUP en Unity:
-/// 1. Crea un GameObject vacío llamado "PlayerSpawner" en la escena
-/// 2. Adjunta este script
-/// 3. Asigna el prefab del jugador al campo "playerPrefab"
-/// 4. Crea 4 GameObjects vacíos como SpawnPoints y asígnalos
-/// 5. El PlayerInputManager se agrega automáticamente
-/// </summary>
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerSpawner : MonoBehaviour
 {
@@ -39,7 +30,6 @@ public class PlayerSpawner : MonoBehaviour
 
     private PlayerInputManager inputManager;
     private Transform[] spawnPoints;
-    private int playerCount = 0;
 
     void Awake()
     {
@@ -71,13 +61,6 @@ public class PlayerSpawner : MonoBehaviour
         int index = player.playerIndex;
         if (index >= 4) return;
 
-        // 1. Posicionar en spawn point
-        if (spawnPoints[index] != null)
-        {
-            player.transform.position = spawnPoints[index].position;
-            player.transform.rotation = spawnPoints[index].rotation;
-        }
-
         // 2. Asignar viewport a la cámara del jugador
         Camera cam = player.GetComponentInChildren<Camera>();
         if (cam != null)
@@ -90,8 +73,31 @@ public class PlayerSpawner : MonoBehaviour
         MovePlayer fps = player.GetComponent<MovePlayer>();
         if (fps != null) fps.SetPlayerIndex(index);
 
-        playerCount++;
+        StartCoroutine(SetSpawnNextFrame(player, index));
         Debug.Log($"[PlayerSpawner] Jugador {index + 1} unido. Dispositivo: {player.devices[0].displayName}");
+    }
+
+    private IEnumerator SetSpawnNextFrame(PlayerInput player, int index)
+    {
+        yield return null; // esperar un frame
+
+        if (player == null) yield break;
+        if (spawnPoints[index] == null)
+        {
+            Debug.LogWarning($"[PlayerSpawner] spawnPoint{index} no está asignado en el Inspector.");
+            yield break;
+        }
+
+        // Si tiene CharacterController hay que desactivarlo antes de mover
+        CharacterController cc = player.GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+
+        player.transform.SetPositionAndRotation(
+            spawnPoints[index].position,
+            spawnPoints[index].rotation
+        );
+
+        if (cc != null) cc.enabled = true;
     }
 
     public void RespawnAll()
@@ -101,8 +107,7 @@ public class PlayerSpawner : MonoBehaviour
             int index = player.playerIndex;
             if (index < spawnPoints.Length && spawnPoints[index] != null)
             {
-                player.transform.position = spawnPoints[index].position;
-                player.transform.rotation = spawnPoints[index].rotation;
+                StartCoroutine(SetSpawnNextFrame(player, index));
             }
         }
     }
