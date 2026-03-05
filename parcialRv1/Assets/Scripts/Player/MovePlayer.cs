@@ -125,11 +125,18 @@ public class MovePlayer : MonoBehaviour
     }
 
     //para mirar, movimiento de camara
+
     public void OnLook(InputAction.CallbackContext context)
     {
         lookInput = context.ReadValue<Vector2>();
         isGamepadLook = context.control?.device is Gamepad;
+        Debug.Log($"[OnLook] device:{context.control?.device?.displayName} valor:{lookInput}");
     }
+    //public void OnLook(InputAction.CallbackContext context)
+    //{
+    //    lookInput = context.ReadValue<Vector2>();
+    //    isGamepadLook = context.control?.device is Gamepad;
+    //}
 
     //interaccion con cosas
     public void OnInteract(InputAction.CallbackContext context)
