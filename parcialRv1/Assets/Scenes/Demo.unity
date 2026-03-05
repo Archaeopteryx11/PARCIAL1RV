@@ -5874,7 +5874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442556819718728, guid: ef47994e0c12a954b90ab6b8b0d72bdb, type: 3}
       propertyPath: m_Name
-      value: Pipe2_Valve (34)
+      value: tuberiaReparar
       objectReference: {fileID: 0}
     - target: {fileID: 1442556819718728, guid: ef47994e0c12a954b90ab6b8b0d72bdb, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5939,8 +5939,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1442556819718728, guid: ef47994e0c12a954b90ab6b8b0d72bdb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 487135155}
   m_SourcePrefab: {fileID: 100100000, guid: ef47994e0c12a954b90ab6b8b0d72bdb, type: 3}
+--- !u!1 &143156799 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1442556819718728, guid: ef47994e0c12a954b90ab6b8b0d72bdb, type: 3}
+  m_PrefabInstance: {fileID: 143156798}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &147932843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18582,6 +18590,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4722475043320372, guid: ef47994e0c12a954b90ab6b8b0d72bdb, type: 3}
   m_PrefabInstance: {fileID: 143156798}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &487135155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143156799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca12da0bfdace604199ced5c63d1fff6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PuzzleTrigger
+  nombreEscenaPuzzle: puzzle1
+  mensajeInteraccion: Interactuar
 --- !u!1001 &489451010
 PrefabInstance:
   m_ObjectHideFlags: 0

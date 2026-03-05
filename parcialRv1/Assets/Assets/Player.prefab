@@ -1313,7 +1313,7 @@ MonoBehaviour:
   speed: 5
   sprintMultiplier: 2
   rotationSpeed: 10
-  jumpHeight: 1.2
+  jumpHeight: 2
   playerCamera: {fileID: 0}
   mouseSensitivity: 0.15
   gamepadSensitivity: 120
