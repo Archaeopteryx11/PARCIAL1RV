@@ -1,8 +1,8 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class rotacion : MonoBehaviour
 {
-    public float[] correctRotations; // Ángulos en los que la pieza es válida (ej: 0, 180)
+    public float[] correctRotations; // ï¿½ngulos en los que la pieza es vï¿½lida (ej: 0, 180)
     [SerializeField] public bool isPlaced = false;
     float currentRotation = 0;
     PuzzleManager puzzleManager;
@@ -10,6 +10,9 @@ public class rotacion : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         puzzleManager = Object.FindFirstObjectByType<PuzzleManager>();
 
         int rand = Random.Range(0, 4);
@@ -17,6 +20,8 @@ public class rotacion : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, currentRotation);
 
         CheckStatus();
+
+        
     }
 
     void Update()
@@ -39,19 +44,19 @@ public class rotacion : MonoBehaviour
         }
     }
 
-    
-        void RotarPieza()
-        {
-            transform.Rotate(0, 0, 90);
-            CheckStatus();
-            Object.FindFirstObjectByType<PuzzleManager>().CheckWinCondition();
-        }
+
+    void RotarPieza()
+    {
+        transform.Rotate(0, 0, 90);
+        CheckStatus();
+        Object.FindFirstObjectByType<PuzzleManager>().CheckWinCondition();
+    }
 
     public void CheckStatus()
     {
         float z = transform.eulerAngles.z;
 
-        // Normalizar a múltiplos de 90
+        // Normalizar a mï¿½ltiplos de 90
         z = Mathf.Round(z / 90f) * 90f;
         z = z % 360;
 

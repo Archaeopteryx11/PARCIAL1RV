@@ -1316,7 +1316,7 @@ MonoBehaviour:
   rotationSpeed: 10
   jumpHeight: 2
   playerCamera: {fileID: 0}
-  mouseSensitivity: 0.15
+  mouseSensitivity: 0.1
   gamepadSensitivity: 120
   verticalClamp: 60
 --- !u!114 &2842633001880563558

@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -67,11 +68,8 @@ public class MovePlayer : MonoBehaviour
 
     }
 
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+
+    
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -91,6 +89,14 @@ public class MovePlayer : MonoBehaviour
     {
         // Si el botón está presionado
         isRun = context.ReadValueAsButton();
+    }
+
+    //para mirar, movimiento de camara
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        lookInput = context.ReadValue<Vector2>();
+        isGamepadLook = !(context.control?.device is Mouse);
+
     }
 
     private void Update()
@@ -121,15 +127,9 @@ public class MovePlayer : MonoBehaviour
     public void SetPlayerIndex(int index)
     {
         playerIndex = index;
-        Debug.Log($"[MovePlayer] Soy el Jugador {index + 1}");
     }
 
-    //para mirar, movimiento de camara
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        lookInput = context.ReadValue<Vector2>();
-        isGamepadLook = context.control?.device is Gamepad;
-    }
+    
 
     //interaccion con cosas
     public void OnInteract(InputAction.CallbackContext context)
@@ -142,15 +142,44 @@ public class MovePlayer : MonoBehaviour
     {
         if (playerCamera == null) return;
 
-            float sens = isGamepadLook ? gamepadSensitivity * Time.deltaTime : mouseSensitivity;
+        float mouseX = lookInput.x;
+        float mouseY = lookInput.y;
 
-            // Horizontal: rota el cuerpo del jugador en Y
-            transform.Rotate(Vector3.up * lookInput.x * sens);
+        if (isGamepadLook)
+        {
+            // El gamepad necesita el factor tiempo para ser constante
+            mouseX *= gamepadSensitivity * Time.deltaTime;
+            mouseY *= gamepadSensitivity * Time.deltaTime;
+        }
+        else
+        {
+            // El mouse suele necesitar una sensibilidad más alta o directa
+            // Prueba con 0.1f si ves que es muy rápido, o súbelo si es lento
+            mouseX *= mouseSensitivity;
+            mouseY *= mouseSensitivity;
+        }
 
-            // Vertical: rota solo la camara (con limites para no girar 360 grados)
-            xRotation -= lookInput.y * sens;
-            xRotation = Mathf.Clamp(xRotation, -verticalClamp, verticalClamp);
-            playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        // Horizontal: rota el cuerpo del jugador en Y
+        transform.Rotate(Vector3.up * mouseX);
+
+        // Vertical: rota solo la cámara
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -verticalClamp, verticalClamp);
+        playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        PlayerInput pi = GetComponent<PlayerInput>();
+
+        if (pi.currentControlScheme == "Teclado"
+        || Keyboard.current != null && pi.devices.Any(d => d == Keyboard.current))
+        {
+            pi.SwitchCurrentControlScheme("Teclado",
+                Keyboard.current, Mouse.current);
+        }
     }
 
     //funcion para los objetos del mundo
